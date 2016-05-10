@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Author no:</strong>
+  <%= @fun_comment.author_no %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @fun_comment.name %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @fun_comment.body %>
+</p>
+
+<p>
+  <strong>Deleted:</strong>
+  <%= @fun_comment.deleted %>
+</p>
+
+<%= link_to 'Edit', edit_fun_comment_path(@fun_comment) %> |
+<%= link_to 'Back', fun_comments_path %>

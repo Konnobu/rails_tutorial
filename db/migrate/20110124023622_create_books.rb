@@ -1,5 +1,5 @@
 class CreateBooks < ActiveRecord::Migration
-  def change
+  def self.up
     create_table :books do |t|
       t.string :isbn
       t.string :title
@@ -8,7 +8,11 @@ class CreateBooks < ActiveRecord::Migration
       t.date :published
       t.boolean :cd
 
-      t.timestamps null: false
+      t.timestamps
     end
+  end
+
+  def self.down
+    drop_table :books
   end
 end
