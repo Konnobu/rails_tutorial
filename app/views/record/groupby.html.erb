@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <th>出版社</th>
+      <th>価格</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @books.each do |book| %>
+    <tr>
+      <td><%= book.publish %></td>
+      <td><%= book.avg_price %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
