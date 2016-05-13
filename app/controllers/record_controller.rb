@@ -69,7 +69,7 @@ class RecordController < ApplicationController
   end
 
   def havingby
-    @books = Book.select('publish, AVG(price) AS avg_price').group(:publish).having('AVG(price) >= ?', 2500)
+    @books = Book.select('publish, AVG(price) AS avg_price').group(:publish).having('AVG(price) >= ?', 3000)
     render 'record/groupby'
   end
 
@@ -96,6 +96,10 @@ class RecordController < ApplicationController
     end
 
     render 'books/index'
+  end
+
+  def pluck
+    render text: Book.where(publish: '技術評論社').pluck(:title, :price)
   end
 
 end
