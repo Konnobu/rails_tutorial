@@ -102,4 +102,89 @@ class RecordController < ApplicationController
     render text: Book.where(publish: '技術評論社').pluck(:title, :price)
   end
 
+  def exists
+    flag = Book.where(publish: '技術評論社').exists?
+    render text: "存在するか？：#{flag}"
+  end
+
+  def scope
+    @books = Book.gihyo.top10
+    render 'hello/list'
+  end
+
+  def def_scope
+    render text: Review.all.inspect
+  end
+
+  def count
+    cnt = Book.where(publish: '技術評論社').count
+    render text: "技術評論社の書籍数：#{cnt}"
+  end
+
+  def average
+    avg_price = Book.where(publish: '技術評論社').average(:price)
+    render text: "平均価格は、#{avg_price}円です。"
+  end
+
+  def groupby2
+    @books = Book.group(:publish).average(:price)
+  end
+
+  def literal_sql
+    @books = Book.find_by_sql(['SELECT publish, AVG(price) AS avg_price FROM "books" GROUP BY publish HAVING AVG(price) >= ?', 2500])
+    render 'record/groupby'
+  end
+
+  def update_all
+    cnt = Book.where(publish: '技術評論社').update_all(publish: 'Gihyo')
+    render text: "#{cnt}件のデータを更新しました"
+  end
+
+  def update_all2
+    cnt = Book.order(:published).limit(5).update_all('price = price * 0.8')
+    render text: "#{cnt}件のデータを更新しました"
+  end
+
+  def destroy_all
+    Book.destroy_all(['publish <> ?', '技術評論社'])
+    render text: '削除完了'
+  end
+
+  def transact
+      Book.transaction do
+        b1 = Book.new({isbn: '978-4-7741-4223-0',
+                        title: 'Rubyポケットリファレンス',
+                        price: 2000, publish: '技術評論社', published: '2011-01-01'})
+        b1.save!
+        raise '例外発生：処理はキャンセルされました'
+        b2 = Book.new({isbn: '978-4-7741-4223-2',
+                        title: 'Tomcatポケットリファレンス',
+                        price: 2500, publish: '技術評論社', published: '2011-01-01'})
+        b2.save!
+      end
+      render text: 'トランザクションは成功しました。'
+    rescue => e
+      render text: e.message
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end

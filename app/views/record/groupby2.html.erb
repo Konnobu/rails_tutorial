@@ -1,0 +1,15 @@
+<table border="1">
+  <thead>
+    <tr>
+      <th>出版社</th><th>価格</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @books.each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %>円</td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
